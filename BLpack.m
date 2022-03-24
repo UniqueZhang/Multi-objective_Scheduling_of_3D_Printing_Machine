@@ -13,9 +13,10 @@ for k=1:n   %每一个矩形开始BL
     Yp1=Ws-W;
     u=check_over(Xp1,Yp1,L,W,data_rec);
     if u==1
+        
         vv=['第',num2str(k),'个零件放不下了'];
         disp(vv);
-        break
+        break;
     end
     while j==0
         [Xp1,Yp1,j]=packbox(L,W,XX,Y,X,YY,Xp1,Yp1);%一次BL以及触底判断
@@ -25,6 +26,7 @@ for k=1:n   %每一个矩形开始BL
         Y=contour_x(:,3);
         YY=contour_y(:,1:2);
         X=contour_y(:,3);
+        
     end
     i=k;
     j=0;
@@ -34,6 +36,7 @@ for k=1:n   %每一个矩形开始BL
         Y=contour_x(:,3);
         YY=contour_y(:,1:2);
         X=contour_y(:,3);
+        
 end
 end
     

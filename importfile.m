@@ -1,4 +1,4 @@
-function ht11 = importfile(filename, startRow, endRow)
+function ht11 = importfile(filename)
 %IMPORTFILE 将文本文件中的数值数据作为矩阵导入。
 %   HT11 = IMPORTFILE(FILENAME) 读取文本文件 FILENAME 中默认选定范围的数据。
 %

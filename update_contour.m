@@ -15,8 +15,8 @@ line_y(:,1)=[];
 yy=line_y(:,2);
 line_y(:,2)=[];
 line_y=[line_y yy];%删除了左下角坐标的横坐标，此时line_y=[下横坐标，上横坐标，右边横坐标]
-line_x=sortrows(line_x,-3)%降序排序
-line_y=sortrows(line_y,-3)%降序排序
+line_x=sortrows(line_x,-3);%降序排序
+line_y=sortrows(line_y,-3);%降序排序
 
 
 
