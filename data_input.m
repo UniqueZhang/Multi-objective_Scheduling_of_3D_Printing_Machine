@@ -32,22 +32,26 @@ data_parts(1:n1,:)=[];
 %目前需要提取出零件的l、w(所有加工方向吧),数据收集进data_lw
 m=size(data_parts,1);
 m1=1;
-data_lw=[];
+s1=1;
 while m1<=m
     p=data_parts(m1,3);
-    parts_data(m1).id=data_parts(m1,1);
-    parts_data(m1).num=data_parts(m1,2);
-    parts_data(m1).orientation_num=data_parts(m1,3);
-    parts_data(m1).volume=data_parts(m1,4);   
-    for y=1:p
-        parts_data(m1).orientation(y).L=data_parts(m1+y,1);
-        parts_data(m1).orientation(y).W=data_parts(m1+y,2);
-        parts_data(m1).orientation(y).H=data_parts(m1+y,3);
-        parts_data(m1).orientation(y).support=data_parts(m1+y,4);
+    r=data_parts(m1,2);
+    for r1=1:r
+        parts_data(s1).id=s1;
+        parts_data(s1).orientation_num=data_parts(m1,3);
+        parts_data(s1).volume=data_parts(m1,4);
+        for y=1:p
+            parts_data(s1).orientation(y).L=data_parts(m1+y,1);
+            parts_data(s1).orientation(y).W=data_parts(m1+y,2);
+            parts_data(s1).orientation(y).H=data_parts(m1+y,3);
+            parts_data(s1).orientation(y).support=data_parts(m1+y,4);
+        end
+         s1=s1+1;
     end
-    if m1+p+1>m
-        break;
-    end
-    m1=m1+p+1;
+        if m1+p+1>m
+            break;
+        end
+        m1=m1+p+1;
+       
 end
 end

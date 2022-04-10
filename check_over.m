@@ -1,5 +1,10 @@
 function u=check_over(Xp1,Yp1,L,W,data_rec)
-[XX,Y,X,YY]=updata(data_rec);
+[contour_x,contour_y]=update_contour(data_rec);%更新四大数集
+        XX=contour_x(:,1:2);
+        Y=contour_x(:,3);
+        YY=contour_y(:,1:2);
+        X=contour_y(:,3);
+
 Xp3=Xp1+L;
 Yp3=Yp1+W;
 u=0;

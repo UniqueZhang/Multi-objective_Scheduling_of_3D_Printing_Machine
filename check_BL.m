@@ -10,29 +10,30 @@ for p=3:fileNum
     [machine,parts,machine_data,parts_data]=data_input(filename);
     m=size(parts_data,2);
     m1=1;
-    data_lw=[];
-while m1<=m
-    p=parts_data(m1).orientation_num;
-    for u=1:p
+    data_lw=zeros(m,2);
+    while m1<=m
+        u=1;
         add_lw=[parts_data(m1).orientation(u).L,parts_data(m1).orientation(u).W];
-        data_lw=[data_lw;add_lw];
+        data_lw(m1,:)=add_lw;
+        m1=m1+1;
     end
-    if m1+p+1>m
-        break;
-    end
-    m1=m1+p+1;
-end
     h=size(machine_data,2);
+     v=['第',num2str(p-2),'文件'];
+       disp(v);
     for k=1:h
        data_rec=BLpack(data_lw,machine_data(k).L,machine_data(k).W);
        r=check_all(data_rec);
+      
        if r==0
           j=1;
+          disp("BL失败，有重叠");
+       else
+           disp("BL成功，没有重叠");
           
        end
     end
     
-end
+end   
 
 end
 
