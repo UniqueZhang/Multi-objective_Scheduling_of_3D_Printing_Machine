@@ -1,45 +1,50 @@
-function adaptation = decoding(part_Chromosome,parts_data,machine_data)
+function adaptation = decoding(part_Chromosome,parts_data,machine_data,mm)
 %解码，获得适应值
 %adaptation.support    总支撑体积
 %adaptation.time       总打印时间
-%V                     打印机扫描速度
-%U                     打印机上升的速度
+%TS(ti).time           每个批次打印时间
+%TS(ti).support        每个批次打印材料
 
-
-%求总support
-n = size(part_Chromosome,2);
 adaptation.support = 0;
 adaptation.time = 0;
-for i = 1:n
-    OR = part_Chromosome(i).oriention; %染色体中该零件打印方向
-    adaptation.support = adaptation.support + parts_data(i).orientation(OR).support;
-end
+n = size(part_Chromosome,2);
 
-%求总time
-V = machine_data(1).V;
-U = machine_data(1).U;
-[Group,data_lwh] = arrange1(part_Chromosome,parts_data,machine_data);
+%获得零件顺序和批次
+
+[Group,data_lwhsv] = arrange1(part_Chromosome,parts_data,machine_data,mm);
 g = size(Group,2);
 
+Sm = machine_data(mm).S;
+Vm = machine_data(mm).V;
+Um = machine_data(mm).U;
+
+ti = 1;
+%求值
 
 for s = 2:g
-    S = 0; %S为总面积
+    sv = 0;
+    sp = 0;
     First = Group(s-1);
     Last = Group(s) -1;
     for ss = First:Last
-        S = S + data_lwh(ss,1)*data_lwh(ss,2);
+        sv = sv + data_lwhsv(ss,4) + data_lwhsv(ss,5);
+        sp = sp + data_lwhsv(ss,4);
     end
-    %ST是扫描时间，HT是上升时间
-    ST = S / V;
-    data_lwh_new = data_lwh;
-    data_lwh_new(1:First-1,:) = [];
-    data_lwh_new(Last+1:n,:) = [];
-    hmax = max(data_lwh_new);
+    
+    data_lwhsv_new = data_lwhsv;
+    data_lwhsv_new(1:First-1,:) = [];
+    data_lwhsv_new(Last+1:n,:) = [];
+    hmax = max(data_lwhsv_new);
     h_max = hmax(3);
-    HT = h_max / U;
-    adaptation.time = adaptation.time + ST + HT ;
+    TS(ti).time = Sm + Vm * sv + Um * h_max;
+    TS(ti).support = sp;
+    
+    adaptation.time = adaptation.time + TS(ti).time;
+    adaptation.support = adaptation.support + TS(ti).support;
+    ti = ti + 1;
 end
-  adaptation.time   
+end
+
         
 
 
