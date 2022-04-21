@@ -1,4 +1,4 @@
-function [data_rec,k] = BLpack(rec_all,Ls,Ws)
+function [data_rec,k,k2] = BLpack(rec_all,Ls,Ws)
 XX=[0,Ls];
 Y=[0];
 YY=[0,Ws];
@@ -6,6 +6,7 @@ X=[0];
 data_rec=[0,0,0,Ls,0;0,0,0,0,Ws];
 j=0;
 n=size(rec_all,1);
+k2 = 0;
 for k=1:n   %每一个矩形开始BL
     L=rec_all(k,1);
     W=rec_all(k,2);
@@ -15,9 +16,9 @@ for k=1:n   %每一个矩形开始BL
     if u==1        
         vv=['第',num2str(k),'个零件放不下了'];
         disp(vv);
+        k2 = 1;
         break;
-    end
-    
+    end   
     while j==0
         [Xp1,Yp1,j]=packbox(L,W,XX,Y,X,YY,Xp1,Yp1);%一次BL以及触底判断
         rec_p=delete_rec(data_rec,Xp1,Yp1,L,W);%删除右上的矩形

@@ -1,46 +1,61 @@
-function adaptation = decoding(part_Chromosome,parts_data,machine_data,mm)
+function fitness = decoding(part_Chromosome,parts_data,machine_data,mm)
 %解码，获得适应值
-%adaptation.support    总支撑体积
-%adaptation.time       总打印时间
-%TS(ti).time           每个批次打印时间
-%TS(ti).support        每个批次打印材料
+%fitness.support    总支撑体积
+%fitness.time       总打印时间
+%Batch(ti).time           每个批次打印时间
+%Batch(ti).support        每个批次打印材料
+%Batch(ti).h_max          每个批次打印最高高度
 
-adaptation.support = 0;
-adaptation.time = 0;
+fitness.support = 0;
+fitness.time = 0;
 n = size(part_Chromosome,2);
 
 %获得零件顺序和批次
 
-[Group,data_lwhsv] = arrange1(part_Chromosome,parts_data,machine_data,mm);
-g = size(Group,2);
+[Branch,data_lwhsv] = arrange2(part_Chromosome,parts_data,machine_data,mm);
+g = size(Branch,2);
 
 Sm = machine_data(mm).S;
 Vm = machine_data(mm).V;
 Um = machine_data(mm).U;
-
+%预分配空间给Batch
+Batch.time = [];         
+Batch.support = [];     
+Batch.h_max = [];
+Batch = repmat(Batch,[g,1]);
 ti = 1;
 %求值
-
-for s = 2:g
+Last = 0;
+for s = 1:g
     sv = 0;
     sp = 0;
-    First = Group(s-1);
-    Last = Group(s) -1;
+    First = Last + 1;
+    g1 = size(Branch{s},2);
+    Last = First + g1 - 1;
     for ss = First:Last
         sv = sv + data_lwhsv(ss,4) + data_lwhsv(ss,5);
         sp = sp + data_lwhsv(ss,4);
     end
     
     data_lwhsv_new = data_lwhsv;
-    data_lwhsv_new(1:First-1,:) = [];
-    data_lwhsv_new(Last+1:n,:) = [];
-    hmax = max(data_lwhsv_new);
+    if First - 1 < n
+        data_lwhsv_new(1:First-1,:) = [];
+    end
+    if Last + 1 <= n
+        data_lwhsv_new(Last+1:n,:) = [];
+    end
+    if size(data_lwhsv_new) > 1
+        hmax = max(data_lwhsv_new);
+    else
+        hmax = data_lwhsv_new;
+    end     
     h_max = hmax(3);
-    TS(ti).time = Sm + Vm * sv + Um * h_max;
-    TS(ti).support = sp;
+    Batch(ti).time = Sm + Vm * sv + Um * h_max;
+    Batch(ti).support = sp;
+    Batch(ti).h_max = h_max;
     
-    adaptation.time = adaptation.time + TS(ti).time;
-    adaptation.support = adaptation.support + TS(ti).support;
+    fitness.time = fitness.time + Batch(ti).time;
+    fitness.support = fitness.support + Batch(ti).support;
     ti = ti + 1;
 end
 end
