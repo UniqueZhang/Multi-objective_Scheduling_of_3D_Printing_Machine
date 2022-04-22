@@ -38,12 +38,19 @@ for s = 1:g
     end
     
     data_lwhsv_new = data_lwhsv;
+    
+    
     if First - 1 < n
         data_lwhsv_new(1:First-1,:) = [];
+        if Last + 1 <= n
+            data_lwhsv_new(Last-First+2:n-First+1,:) = [];    
+        end
+    else if Last + 1 <= n
+            data_lwhsv_new(Last+1:n,:) = [];
+        end
     end
-    if Last + 1 <= n
-        data_lwhsv_new(Last+1:n,:) = [];
-    end
+    
+    
     if size(data_lwhsv_new) > 1
         hmax = max(data_lwhsv_new);
     else

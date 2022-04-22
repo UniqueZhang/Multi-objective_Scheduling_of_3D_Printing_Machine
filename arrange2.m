@@ -23,27 +23,27 @@ k2 = 0;
 while kk == 0
     [data_rec,k,k2]=BLpack(data_lw,machine_data(mm).L,machine_data(mm).W);
     %画图
-    r=check_all(data_rec);
-    if r==0
-        disp('有重叠');
-    else
-        disp('没有重叠');
-    end
-    figure
-    rectangle('Position',[0 0 machine_data(mm).L machine_data(mm).W])
-    m=size(data_rec,1);
-    for i=3:m
-        rectangle('Position',[data_rec(i,2) data_rec(i,3) data_rec(i,4)-data_rec(i,2) data_rec(i,5)-data_rec(i,3)])
-        text(data_rec(i,2)+0.2,data_rec(i,3)+0.7,num2str(i-2))
-        hold on;
-    end
+%     r=check_all(data_rec);
+%     if r==0
+%         disp('有重叠');
+%     else
+%         disp('没有重叠');
+%     end
+%     figure
+%     rectangle('Position',[0 0 machine_data(mm).L machine_data(mm).W])
+%     m=size(data_rec,1);
+%     for i=3:m
+%         rectangle('Position',[data_rec(i,2) data_rec(i,3) data_rec(i,4)-data_rec(i,2) data_rec(i,5)-data_rec(i,3)])
+%         text(data_rec(i,2)+0.2,data_rec(i,3)+0.7,num2str(i-2))
+%         hold on;
+%     end
     %改参
     Branch(Bi) = {Turn(T_first:T_first+k-2)};
     if k == Dn && k2 == 0
         Branch(Bi) = {Turn(T_first:T_first+k-1)};  
         break;              
     end
-    data_lw(T_first:k-1,:) = [];
+    data_lw(1:k-1,:) = [];
     T_first = k;
     Dn = size(data_lw,1);
     Bi = Bi + 1;
