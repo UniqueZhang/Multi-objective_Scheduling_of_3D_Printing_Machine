@@ -1,11 +1,11 @@
-function fitness = decoding(part_Chromosome,parts_data,machine_data,mm)
+function fitness = decoding2(part_Chromosome,parts_data,machine_data)
 %解码，获得适应值
 %fitness.support    总支撑体积
 %fitness.time       总打印时间
 %Batch(ti).time           每个批次打印时间
 %Batch(ti).support        每个批次打印材料
 %Batch(ti).h_max          每个批次打印最高高度
-
+mm = 2;
 fitness.support = 0;
 fitness.time = 0;
 n = size(part_Chromosome,2);
@@ -65,9 +65,3 @@ for s = 1:g
     fitness.support = fitness.support + Batch(ti).support;
     ti = ti + 1;
 end
-end
-
-        
-
-
-

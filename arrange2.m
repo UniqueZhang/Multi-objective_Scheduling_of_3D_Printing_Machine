@@ -19,9 +19,9 @@ kk = 0;
 Bi = 1;
 T_first = 1;
 Dn = size(data_lw,1);
-k2 = 0;
+% Branch = cell(1,1);
 while kk == 0
-    [data_rec,k,k2]=BLpack(data_lw,machine_data(mm).L,machine_data(mm).W);
+    [~,k,k2]=BLpack(data_lw,machine_data(mm).L,machine_data(mm).W);
     %»­Í¼
 %     r=check_all(data_rec);
 %     if r==0

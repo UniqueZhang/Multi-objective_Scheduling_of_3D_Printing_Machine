@@ -14,8 +14,8 @@ for k=1:n   %每一个矩形开始BL
     Yp1=Ws-W;
     u=check_over(Xp1,Yp1,L,W,data_rec);
     if u==1        
-        vv=['第',num2str(k),'个零件放不下了'];
-        disp(vv);
+%         vv=['第',num2str(k),'个零件放不下了'];
+%         disp(vv);
         k2 = 1;
         break;
     end   
