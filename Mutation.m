@@ -9,13 +9,20 @@ function IndivChromMutated = Mutation(IndivChrom)
 % NumIteration: Number of insertions
 
 %% Here we remove a gene then insert it to another position in the permutation
-num_indiv = size(IndivChrom,1);
-NVARS = size(IndivChrom,2);
-IndivChromMutated = zeros(num_indiv,NVARS);
+%% test
+
+N = size(IndivChrom,2);
+IndivChrom1 = IndivChrom(1,1 : N/ 2);
+IndivChrom2 = IndivChrom(1,N/2+1:end);
+
+%% mutation of sequence
+num_indiv = size(IndivChrom1,1);
+NVARS = size(IndivChrom1,2);
+
 
 NumIteration = 1;
 for i=1:num_indiv
-    parent = IndivChrom(i,:);
+    parent = IndivChrom1(i,:);
     
     child = parent;
     % Job sequence chromosome mutation (Insert)
@@ -36,9 +43,32 @@ for i=1:num_indiv
         end
     end
     
-    IndivChromMutated(i,:) = child;
+IndivChrom1 = child;
+end
+%% mutation of orientation
+
+%找到有变异空间的点
+k_data = size(parts_data,2);
+num_not1 = [];
+for ki = 1:k_data
+    if parts_data(ki).orientation_num > 1
+        num_not1 = [num_not1 ki];
+    end
 end
 
+NVARS_2 = size(num_not1,2);
+pos_mut2 = randsample(NVARS_2,1);
+id_pos2 = num_not1(pos_mut2);
+
+while 1
+    a = IndivChrom2(1,pos_mut2);
+    b = randi(parts_data(id_pos2).orientation_num);
+    if not(a == b)
+        IndivChrom2(1,pos_mut2) = b;
+        break;
+    end
+end
+IndivChromMutated = [IndivChrom1 IndivChrom2];
 %% subfunction
     function [x_new] = pickout(x,n)
         % x: the vector
