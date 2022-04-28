@@ -65,10 +65,10 @@ if NVARS_2 ==0
 end
 
 while pi == 1
-    a = IndivChrom2(1,pos_mut2);
+    a = IndivChrom2(1,id_pos2);
     b = randi(parts_data(id_pos2).orientation_num);
     if not(a == b)
-        IndivChrom2(1,pos_mut2) = b;
+        IndivChrom2(1,id_pos2) = b;
         break;
     end
 end

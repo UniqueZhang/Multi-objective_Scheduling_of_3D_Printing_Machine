@@ -134,14 +134,15 @@ while not(cond_terminate)
     Child_chrom_all = Child_chrom_all(not(I),:);
     
     % evaluate the offsprings
-    val_obj_children = ObjFun(Child_chrom_all,ProbData,parts_data,machine_data);
-    eval_count = eval_count + size(val_obj_children,1) ;     
-
-    popc=repmat(empty_individual, size(Child_chrom_all,1),1);
-    for k = 1:numel(popc)
-        popc(k).chrom = Child_chrom_all(k,:);
-        popc(k).feats = val_obj_children(k,:)';
+      popc=repmat(empty_individual, size(Child_chrom_all,1),1);
+    for vi = 1:size(Child_chrom_all,1)
+        val_obj_children = ObjFun(Child_chrom_all(vi,:),ProbData,parts_data,machine_data);
+        eval_count = eval_count + size(val_obj_children,1) ;
+        popc(vi).chrom = Child_chrom_all(vi,:);
+        popc(vi).feats = val_obj_children(1,:)';
     end
+
+    
     
     % combine
     pop_all = [pop;popc];
