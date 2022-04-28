@@ -4,16 +4,15 @@ clear all
 %%
 
 %% Problem Setup 
-
-[machine1,parts1,machine_data1,parts_data1]=data_input('C:\Users\ASUS\Desktop\BL\2\Test instances of Che et al., 2021\ht1_1.txt');
+mm = 2;
+[machine,parts,machine_data,parts_data]=data_input('C:\Users\ASUS\Desktop\BL\2\Test instances of Che et al., 2021\ht1_1.txt');
 %生成多组染色体并解码
-ProbData.n = 2*size(parts_data1,2);
+ProbData.n = 2*size(parts_data,2);
 ProbData.m = 5;
-
-alldata.machine = machine1;
-alldata.parts = parts1;
-alldata.machinedata = machine_data1;
-alldata.partsdata = parts_data1;
+alldata.machine = machine;
+alldata.parts = parts;
+alldata.machine = machine_data;
+alldata.machine = machine;
 % ProbData.n = 10;
 % ProbData.m = 5;
 
@@ -48,4 +47,4 @@ AlgOptions.MaxEvalCount = inf;
 AlgOptions.MaxEvalTime = inf;
 
 ObjFun = @CalObjValues;%目标函数的计算
-[ F1, pop , eval_count, t_run] = NSGA2(ObjFun, AlgOptions, ProbData,alldata)
+[ F1, pop , eval_count, t_run] = NSGA2(ObjFun, AlgOptions, ProbData,parts_data)

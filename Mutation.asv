@@ -67,6 +67,7 @@ end
 while pi == 1
     a = IndivChrom2(1,pos_mut2);
     b = randi(parts_data(id_pos2).orientation_num);
+    disp('
     if not(a == b)
         IndivChrom2(1,pos_mut2) = b;
         break;

@@ -1,4 +1,4 @@
-function [ F1, pop , eval_count,t_run] = NSGA2(ObjFun, AlgOptions, ProbData)
+function [ F1, pop , eval_count,t_run] = NSGA2(ObjFun, AlgOptions, ProbData,alldata)
 % NSGA2 is the multi-objective optimization approach proposed in Deb,2002.
 %% ==== Inputs ====
 % ObjFun: [function handle] The function returns the objective values
@@ -44,6 +44,11 @@ CreationFcn = AlgOptions.CreationFcn;
 
 MaxEvalCount = AlgOptions.MaxEvalCount;
 MaxEvalTime = AlgOptions.MaxEvalTime;
+
+machine = alldata.machine;
+parts = alldata.parts ;
+machine_data = alldata.machinedata ;
+parts_data = alldata.partsdata ;
 
 %% Initialize time counter
 time_start = tic;
@@ -105,20 +110,24 @@ while not(cond_terminate)
     for i=1:2:PopSize
         % Reproduction with crossover
         if rand<pCrossover
-            Child_chrom = CrossoverFcn(winners(i).chrom, winners(i+1).chrom);
+            [Child_chrom1,Child_chrom2] = CrossoverFcn(winners(i).chrom, winners(i+1).chrom);
         else
-            Child_chrom = [winners(i).chrom ; winners(i+1).chrom];
+            Child_chrom1 = winners(i).chrom;
+            Child_chrom2 = winners(i+1).chrom;
+%             Child_chrom = [winners(i).chrom ; winners(i+1).chrom];
         end
         
         % Reproduction with mutation
         if rand<pMutation
-            Child_chrom = MutationFcn(Child_chrom);
+            Child_chrom1 = MutationFcn(Child_chrom1,parts_data);
+            Child_chrom2 = MutationFcn(Child_chrom2,parts_data);
         end
-        Child_chrom_all = [Child_chrom_all; Child_chrom];
+        Child_chrom_all = [Child_chrom_all; Child_chrom1];
+        Child_chrom_all = [Child_chrom_all; Child_chrom2];
     end
     
     chrom_all = cell2mat( {pop.chrom}');
-    Child_chrom_all = unique(Child_chrom_all,'rows');
+    Child_chrom_all = unique(Child_chrom_all,'rows');%删去自身中重复的行
     
     % remove duplicated chromosomes
     I = ismember(Child_chrom_all,chrom_all,'rows');
