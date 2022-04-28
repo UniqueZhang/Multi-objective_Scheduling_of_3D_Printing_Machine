@@ -172,8 +172,8 @@ while not(cond_terminate)
         % Plot Archive Costs
         
         figure(1);
-        xlabel('y1');
-        ylabel('y2');
+        xlabel('support');
+        ylabel('time');
         pauseT_arc = 0.5;
 
         feats = [pop.feats];
@@ -209,8 +209,8 @@ if plot_on
     [hd_a,hd_b]=PlotCosts4(F1, 'b*', pauseT);
     hold on;
     grid on;
-    xlabel('y1');
-    ylabel('y2');
+    xlabel('support');
+    ylabel('time');
     legend({'Dominated Solutions','Non-Dominated Solutions'});
 end
 

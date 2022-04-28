@@ -6,8 +6,12 @@ function fitness = decoding2(part_Chromosome,parts_data,machine_data)
 %Batch(ti).support        每个批次打印材料
 %Batch(ti).h_max          每个批次打印最高高度
 mm = 2;
+Sm = machine_data(mm).S;
+Vm = machine_data(mm).V;
+Um = machine_data(mm).U;
+
 fitness.support = 0;
-fitness.time = 0;
+fitness.time = Um ;
 n = size(part_Chromosome,2);
 
 %获得零件顺序和批次
@@ -15,9 +19,7 @@ n = size(part_Chromosome,2);
 [Branch,data_lwhsv] = arrange2(part_Chromosome,parts_data,machine_data,mm);
 g = size(Branch,2);
 
-Sm = machine_data(mm).S;
-Vm = machine_data(mm).V;
-Um = machine_data(mm).U;
+
 %预分配空间给Batch
 Batch.time = [];         
 Batch.support = [];     
@@ -50,14 +52,10 @@ for s = 1:g
         end
     end
     
-    
-    if size(data_lwhsv_new) > 1
-        hmax = max(data_lwhsv_new);
-    else
-        hmax = data_lwhsv_new;
-    end     
-    h_max = hmax(3);
-    Batch(ti).time = Sm + Vm * sv + Um * h_max;
+    h_max = max(data_lwhsv_new(:,3));
+     
+   
+    Batch(ti).time = Vm * sv + Um * h_max;
     Batch(ti).support = sp;
     Batch(ti).h_max = h_max;
     
