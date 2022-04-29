@@ -141,8 +141,8 @@ while not(cond_terminate)
         all_obj_children1 = ObjFun(Child_chrom_all(ii,:),ProbData,parts_data,machine_data);
         all_obj_children = [all_obj_children;all_obj_children1] ;
     end
-    [~,rows_needs,~] = unique(all_obj_children,'rows','stable');
-    Child_chrom_all = Child_chrom_all(rows_needs,:);
+    [~,rows_needs,~] = unique(ll_obj_children,'rows','stable');
+    Child_chrom_all =
     
     % evaluate the offsprings
       popc=repmat(empty_individual, size(Child_chrom_all,1),1);

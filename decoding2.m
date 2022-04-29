@@ -55,7 +55,7 @@ for s = 1:g
     h_max = max(data_lwhsv_new(:,3));
      
    
-    Batch(ti).time = Vm * sv + Um * h_max;
+    Batch(ti).time = Um + Vm * sv + Sm * h_max;
     Batch(ti).support = sp;
     Batch(ti).h_max = h_max;
     

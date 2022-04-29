@@ -5,7 +5,7 @@ clear all
 
 %% Problem Setup 
 
-[machine1,parts1,machine_data1,parts_data1]=data_input('C:\Users\ASUS\Desktop\BL\2\Test instances of Che et al., 2021\ht3_10.txt');
+[machine1,parts1,machine_data1,parts_data1]=data_input('C:\Users\ASUS\Desktop\BL\2\Test instances of Che et al., 2021\ht100_3.txt');
 %生成多组染色体并解码
 ProbData.n = 2*size(parts_data1,2);
 ProbData.m = 5;
@@ -42,18 +42,18 @@ AlgOptions.CreationFcn = @Creation;%初始化
 AlgOptions.SelectionFcn = @TournamentSelection_nsga2;
 AlgOptions.CrossoverFcn = @CrossOver;%交叉
 AlgOptions.MutationFcn = @Mutation;%变异
-AlgOptions.CrossoverRate = 1;
-AlgOptions.MutationRate = 0.1;
+AlgOptions.CrossoverRate = 0.5;
+AlgOptions.MutationRate = 0.5;
 AlgOptions.MaxEvalCount = inf;
 AlgOptions.MaxEvalTime = inf;
 
 ObjFun = @CalObjValues;%目标函数的计算
 [ F1, pop , eval_count, t_run] = NSGA2(ObjFun, AlgOptions, ProbData,alldata)
 %% F1结果画图
-for Fi = 1:size(F1,1)
-    chromfigure = F1(Fi).chrom ;
-    Branch = figureBL(chromfigure,parts_data1,machine_data1);
-end
+% for Fi = 1:size(F1,1)
+%     chromfigure = F1(Fi).chrom ;
+%     Batchtime_1{Fi} = figureBL(chromfigure,parts_data1,machine_data1);
+% end
 
 % %找不同 后半段
 % aa = F1(1).chrom(101:end);
