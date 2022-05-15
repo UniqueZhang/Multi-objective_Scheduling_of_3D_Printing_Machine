@@ -1,6 +1,7 @@
 function [contour_x,contour_y]=update_contour(rec_p)
-%实现轮廓线的更新，以更新X方向上轮廓为例。首先降序排列矩形上边数据，接着依次摆下去
+%% 实现轮廓线的更新，以更新X方向上轮廓为例。首先降序排列矩形上边数据，接着依次摆下去
 %rec_p转换成边数据集合line_x
+% rec_p的格式[i,Xp1,Yp1,Xp3,Yp3];
 line_x=rec_p;
 line_y=rec_p;
 Ls=rec_p(1,4);
@@ -8,19 +9,25 @@ Ws=rec_p(2,5);
 line_x(1:2,:)=[];%删除前两行表示的坐标轴
 line_y(1:2,:)=[];
 %这里只是考虑到了rec_p存放有矩形而不只是两坐标轴
-line_x(:,1)=[];%删除第一列：矩形序号
-line_x(:,2)=[];%删除了左下角坐标的纵坐标，此时line_x=[左横坐标，右横坐标，上边纵坐标]
-line_y(:,1)=[];%删除第一列：矩形序号
-line_y(:,1)=[];
-yy=line_y(:,2);
-line_y(:,2)=[];
-line_y=[line_y yy];%删除了左下角坐标的横坐标，此时line_y=[下横坐标，上横坐标，右边横坐标]
+
+% line_x(:,1)=[];%删除第一列：矩形序号
+% line_x(:,2)=[];%删除了左下角坐标的纵坐标，此时line_x=[Xp1，Xp3，Yp3]
+% line_y(:,1)=[];%删除第一列：矩形序号
+% line_y(:,1)=[];
+% yy=line_y(:,2);
+% line_y(:,2)=[];
+% line_y=[line_y yy];%删除了左下角坐标的横坐标，此时line_y=[Yp1，Yp3，Xp3]
+
+line_x(:,[1,3])=[];%删除了左下角坐标的纵坐标，此时line_x=[Xp1，Xp3，Yp3]
+yy=line_y(:,4);
+line_y(:,[1,2,4])=[];
+line_y=[line_y yy];%删除了左下角坐标的横坐标，此时line_y=[Yp1，Yp3，Xp3]
+
 line_x=sortrows(line_x,-3);%降序排序
 line_y=sortrows(line_y,-3);%降序排序
 
 
-
-%---------contour_x----------------
+%% ---------contour_x----------------
 
 n=size(line_x,1);
 if n~=0%赋值首行轮廓线集合
@@ -62,14 +69,14 @@ if n > 1
             elseif lineX(1)>=contour_x(k,1) && lineX(1)<contour_x(k,2) && lineX(2)>contour_x(k,2) ==1
                 lineX(1)=contour_x(k,2);
                 
-            
+                
             end
             k=k+1;
             
         end
-       
-          contour_x=[contour_x;lineX];
-          m=size(contour_x,1);
+        
+        contour_x=[contour_x;lineX];
+        m=size(contour_x,1);
         
         i=i+1;
         k=1;
@@ -88,7 +95,7 @@ while r<=j
 end
     
 
-%同理--------------contour_y--------
+%% 同理--------------contour_y--------
 
 n1=size(line_y,1);
 if n1~=0%赋值首行轮廓线集合
@@ -155,5 +162,6 @@ while r1<=j1
     end
     r1=r1+1;
 end
-    
+end
+
     

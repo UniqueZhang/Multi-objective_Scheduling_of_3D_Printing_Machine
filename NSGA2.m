@@ -119,7 +119,7 @@ while not(cond_terminate)
         
         % Reproduction with mutation
         if rand<pMutation
-            for morei = 1:5
+            for morei = 1:3
                 Child_chrom1 = MutationFcn(Child_chrom1,parts_data);
                 Child_chrom2 = MutationFcn(Child_chrom2,parts_data);
             end
@@ -139,10 +139,15 @@ while not(cond_terminate)
     all_obj_children = [];
     for ii = 1:size(Child_chrom_all,1)
         all_obj_children1 = ObjFun(Child_chrom_all(ii,:),ProbData,parts_data,machine_data);
-        all_obj_children = [all_obj_children;all_obj_children1] ;
+        all_obj_children = [all_obj_children1;all_obj_children] ;
+    end
+    for ii2 = 1:size(pop,1)
+        all_obj_pop = (pop(ii2).feats)';
+        all_obj_children = [all_obj_children;all_obj_pop] ;
     end
     [~,rows_needs,~] = unique(all_obj_children,'rows','stable');
-    Child_chrom_all = Child_chrom_all(rows_needs,:);
+    rows_needs1 = rows_needs(rows_needs > size(pop,1)) - 50;
+    Child_chrom_all = Child_chrom_all(rows_needs1,:);
     
     % evaluate the offsprings
       popc=repmat(empty_individual, size(Child_chrom_all,1),1);

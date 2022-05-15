@@ -36,7 +36,7 @@ alldata.partsdata = parts_data1;
 % eval_count: the cumulated number of evaluations累积评估
 % t_run: running time
 
-AlgOptions.Generations = 50;
+AlgOptions.Generations = 2;
 AlgOptions.PopulationSize = 50;
 AlgOptions.CreationFcn = @Creation;%初始化
 AlgOptions.SelectionFcn = @TournamentSelection_nsga2;
@@ -81,7 +81,6 @@ ObjFun = @CalObjValues;%目标函数的计算
 %     aa = F1(ki).chrom(101:end);
 %     cc = find(min_or~=aa);
 % end
-
 
 
 
