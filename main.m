@@ -5,7 +5,7 @@ clear all
 
 %% Problem Setup 
 
-[machine1,parts1,machine_data1,parts_data1]=data_input('C:\Users\ASUS\Desktop\BL\2\Test instances of Che et al., 2021\ht100_3.txt');
+[machine1,parts1,machine_data1,parts_data1]=data_input('C:\Users\ASUS\Desktop\BL\2\Test instances of Che et al., 2021\ht7_1.txt');
 %生成多组染色体并解码
 ProbData.n = 2*size(parts_data1,2);
 ProbData.m = 5;
@@ -36,7 +36,7 @@ alldata.partsdata = parts_data1;
 % eval_count: the cumulated number of evaluations累积评估
 % t_run: running time
 
-AlgOptions.Generations = 2;
+AlgOptions.Generations = 50;
 AlgOptions.PopulationSize = 50;
 AlgOptions.CreationFcn = @Creation;%初始化
 AlgOptions.SelectionFcn = @TournamentSelection_nsga2;
@@ -48,7 +48,10 @@ AlgOptions.MaxEvalCount = inf;
 AlgOptions.MaxEvalTime = inf;
 
 ObjFun = @CalObjValues;%目标函数的计算
-[ F1, pop , eval_count, t_run] = NSGA2(ObjFun, AlgOptions, ProbData,alldata)
+[ F1, pop , eval_count, t_run,data_NSGA] = NSGA2(ObjFun, AlgOptions, ProbData,alldata)
+%% 存储数据
+save('data_NSGA2\500_50_50.mat','data_NSGA','pop');
+
 %% F1结果画图
 % for Fi = 1:size(F1,1)
 %     chromfigure = F1(Fi).chrom ;

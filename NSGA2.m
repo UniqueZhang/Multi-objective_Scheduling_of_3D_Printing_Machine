@@ -1,4 +1,4 @@
-function [ F1, pop , eval_count,t_run] = NSGA2(ObjFun, AlgOptions, ProbData,alldata)
+function [ F1, pop , eval_count,t_run,data_NSGA] = NSGA2(ObjFun, AlgOptions, ProbData,alldata)
 % NSGA2 is the multi-objective optimization approach proposed in Deb,2002.
 %% ==== Inputs ====
 % ObjFun: [function handle] The function returns the objective values
@@ -99,6 +99,8 @@ end
 cond_terminate = 0;
 
 it = 0;               % Iteration counter
+ ic = 1;
+    data_NSGA = cell(1,MaxIt);
 while not(cond_terminate)
     
     it = it +1;
@@ -107,6 +109,7 @@ while not(cond_terminate)
 
     %% ================= Reproduction ======================
     Child_chrom_all = [];                      % Matrix of the children's chromosomes.
+   
     for i=1:2:PopSize
         % Reproduction with crossover
         if rand<pCrossover
@@ -180,6 +183,8 @@ while not(cond_terminate)
     [~,uo] = unique([F1.feats]','rows','stable');
     F1 = F1(uo);
     
+    data_NSGA(1,ic) = {F1};
+    ic =ic + 1;
     %% ================= Update Plot ======================
     if plot_on
         % Show Iteration Information
